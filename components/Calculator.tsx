@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, PieChart, Plus, AlertCircle, LayoutDashboard, BookOpen, Target } from 'lucide-react';
+import { Download, PieChart, Plus, AlertCircle, LayoutDashboard, BookOpen, Target, RefreshCcw } from 'lucide-react';
 import { CalculatorMode, UserCourse } from '../types';
 import { SEMESTERS } from '../constants';
 import { calculateGPA } from '../utils/calculations';
@@ -22,13 +22,38 @@ const Calculator: React.FC<CalculatorProps> = ({ mode, onBack }) => {
   const [courses, setCourses] = useState<UserCourse[]>([]);
   const [stats, setStats] = useState(calculateGPA([]));
 
+  // Initialize Courses with Persistence
   useEffect(() => {
-    // Load default semester 1 on init
+    const saved = localStorage.getItem('bgh_semester_state');
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.courses && data.courses.length > 0) {
+                setCourses(data.courses);
+                setSelectedSemesterId(data.selectedSemesterId || 1);
+                return;
+            }
+        } catch (e) {
+            console.error("Failed to load semester state", e);
+        }
+    }
+    
+    // Fallback default
     const semData = SEMESTERS.find(s => s.id === 1);
     if (semData) {
         setCourses(semData.courses.map(c => ({ ...c, includedInCalc: true })));
     }
   }, []);
+
+  // Save State on Change
+  useEffect(() => {
+    if (courses.length > 0) {
+        localStorage.setItem('bgh_semester_state', JSON.stringify({ 
+            selectedSemesterId, 
+            courses 
+        }));
+    }
+  }, [courses, selectedSemesterId]);
 
   const loadSemester = (id: number) => {
     setSelectedSemesterId(id);
@@ -36,6 +61,14 @@ const Calculator: React.FC<CalculatorProps> = ({ mode, onBack }) => {
     if (semData) {
         setCourses(semData.courses.map(c => ({ ...c, includedInCalc: true })));
     }
+  };
+
+  const resetSemester = () => {
+    const semData = SEMESTERS.find(s => s.id === selectedSemesterId);
+    if (semData) {
+        setCourses(semData.courses.map(c => ({ ...c, includedInCalc: true })));
+    }
+    localStorage.removeItem('bgh_semester_state');
   };
 
   useEffect(() => {
@@ -63,13 +96,29 @@ const Calculator: React.FC<CalculatorProps> = ({ mode, onBack }) => {
   };
 
   const handleSavePrediction = (courseId: string, finalPercentage: number) => {
-      setCourses(prev => prev.map(c => {
-          if (c.id === courseId) {
-              return { ...c, totalPercentage: finalPercentage };
-          }
-          return c;
-      }));
-      // Auto-switch to semester tab to show the result context
+      // Find which semester this course belongs to based on ID
+      const targetSem = SEMESTERS.find(s => s.courses.some(c => c.id === courseId));
+      
+      // If the target course is in a different semester than active, switch to that semester first
+      if (targetSem && targetSem.id !== selectedSemesterId) {
+          setSelectedSemesterId(targetSem.id);
+          // Load fresh copy of that semester then update the specific course
+          const freshCourses = targetSem.courses.map(c => ({ ...c, includedInCalc: true }));
+          const updatedCourses = freshCourses.map(c => {
+             if (c.id === courseId) return { ...c, totalPercentage: finalPercentage };
+             return c;
+          });
+          setCourses(updatedCourses);
+      } else {
+          // Same semester, just update
+          setCourses(prev => prev.map(c => {
+              if (c.id === courseId) {
+                  return { ...c, totalPercentage: finalPercentage };
+              }
+              return c;
+          }));
+      }
+      
       setActiveTab('SEMESTER');
   };
 
@@ -148,6 +197,13 @@ const Calculator: React.FC<CalculatorProps> = ({ mode, onBack }) => {
                                     </button>
                                 ))}
                             </div>
+                            
+                            <button 
+                                onClick={resetSemester}
+                                className="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-bits-red dark:hover:text-red-400 text-sm font-bold flex items-center gap-2 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800"
+                            >
+                                <RefreshCcw size={16} /> Reset Semester
+                            </button>
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start w-full">

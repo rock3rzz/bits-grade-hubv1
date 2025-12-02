@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Target, TrendingUp } from 'lucide-react';
+import { Target, TrendingUp, RefreshCcw } from 'lucide-react';
 
 const GoalPlanner: React.FC = () => {
   const [currentCGPA, setCurrentCGPA] = useState<string>('');
@@ -7,6 +7,28 @@ const GoalPlanner: React.FC = () => {
   const [targetCGPA, setTargetCGPA] = useState<string>('');
   const [remainingUnits, setRemainingUnits] = useState<string>('');
   const [requiredGPA, setRequiredGPA] = useState<number | null>(null);
+
+  // Load state from local storage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('bgh_cgpa_planner_state');
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        setCurrentCGPA(data.currentCGPA || '');
+        setCompletedUnits(data.completedUnits || '');
+        setTargetCGPA(data.targetCGPA || '');
+        setRemainingUnits(data.remainingUnits || '');
+      } catch (e) {
+        console.error("Failed to load planner state", e);
+      }
+    }
+  }, []);
+
+  // Save state to local storage on change
+  useEffect(() => {
+    const state = { currentCGPA, completedUnits, targetCGPA, remainingUnits };
+    localStorage.setItem('bgh_cgpa_planner_state', JSON.stringify(state));
+  }, [currentCGPA, completedUnits, targetCGPA, remainingUnits]);
 
   useEffect(() => {
     const curr = parseFloat(currentCGPA);
@@ -26,16 +48,33 @@ const GoalPlanner: React.FC = () => {
     }
   }, [currentCGPA, completedUnits, targetCGPA, remainingUnits]);
 
+  const handleReset = () => {
+    setCurrentCGPA('');
+    setCompletedUnits('');
+    setTargetCGPA('');
+    setRemainingUnits('');
+    localStorage.removeItem('bgh_cgpa_planner_state');
+  };
+
   return (
     <div>
-      <div className="flex items-center gap-3 mb-8">
-        <div className="bg-amber-50 dark:bg-bits-gold/20 p-2.5 rounded-lg text-bits-gold dark:text-bits-gold">
-            <Target size={22} />
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-3">
+            <div className="bg-amber-50 dark:bg-bits-gold/20 p-2.5 rounded-lg text-bits-gold dark:text-bits-gold">
+                <Target size={22} />
+            </div>
+            <div>
+                <h2 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">CGPA Goal Planner</h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Reverse engineer your path to a target GPA.</p>
+            </div>
         </div>
-        <div>
-            <h2 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">CGPA Goal Planner</h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Reverse engineer your path to a target GPA.</p>
-        </div>
+        <button 
+            onClick={handleReset}
+            className="p-2 text-slate-400 hover:text-bits-blue dark:hover:text-bits-cyan hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            title="Reset Planner"
+        >
+            <RefreshCcw size={18} />
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

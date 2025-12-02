@@ -45,16 +45,59 @@ const GradePredictor: React.FC<GradePredictorProps> = ({ courses: userCourses, o
   // Get available courses for the selected semester from constant
   const availableCourses = SEMESTERS.find(s => s.id === selectedSem)?.courses || [];
 
-  // Initialize defaults
+  // Load state from local storage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('bgh_single_course_state');
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        setScores(data.scores || {});
+        setBitsMode(data.bitsMode || false);
+        setSnapshots(data.snapshots || []);
+        setTargetCutoff(data.targetCutoff ?? 75);
+        
+        if (data.selectedSem) setSelectedSem(data.selectedSem);
+        if (data.selectedCourseId) setSelectedCourseId(data.selectedCourseId);
+      } catch (e) {
+        console.error("Failed to load predictor state", e);
+      }
+    }
+  }, []);
+
+  // Save state to local storage on change
+  useEffect(() => {
+    const state = { 
+        scores, 
+        bitsMode, 
+        snapshots, 
+        targetCutoff, 
+        selectedSem, 
+        selectedCourseId 
+    };
+    localStorage.setItem('bgh_single_course_state', JSON.stringify(state));
+  }, [scores, bitsMode, snapshots, targetCutoff, selectedSem, selectedCourseId]);
+
+  // Initialize defaults only if no selection and no saved state overrides
   useEffect(() => {
     if (availableCourses.length > 0 && !selectedCourseId) {
         setSelectedCourseId(availableCourses[0].id);
     }
   }, [availableCourses]);
 
-  // Reset scores when course changes
+  // Reset scores when course changes (only if it's a manual change, avoiding infinite loops on load)
+  // We use a ref to track if this is the initial load or a user action if needed, 
+  // but simpler is to just let the user clear manually if they switch. 
+  // However, traditionally switching context clears inputs. 
+  // To support persistence, we keep inputs if staying on same course. 
+  // If switching courses, we usually clear.
+  // The current logic `useEffect(() => { setScores({}) }, [selectedCourseId])` wipes data on load too.
+  // We need to bypass this wipe on initial load.
+  const [prevCourseId, setPrevCourseId] = useState(selectedCourseId);
   useEffect(() => {
-    setScores({});
+    if (prevCourseId !== '' && selectedCourseId !== prevCourseId) {
+       setScores({});
+    }
+    setPrevCourseId(selectedCourseId);
   }, [selectedCourseId]);
 
   const [totals, setTotals] = useState({
@@ -73,6 +116,8 @@ const GradePredictor: React.FC<GradePredictorProps> = ({ courses: userCourses, o
 
   const clearAll = () => {
     setScores({});
+    setSnapshots([]);
+    localStorage.removeItem('bgh_single_course_state');
   };
 
   const takeSnapshot = () => {
@@ -186,7 +231,12 @@ const GradePredictor: React.FC<GradePredictorProps> = ({ courses: userCourses, o
                              {[1, 2, 3, 4, 5, 6].map(sem => (
                                  <button
                                      key={sem}
-                                     onClick={() => { setSelectedSem(sem); setSelectedCourseId(''); }}
+                                     onClick={() => { 
+                                         if (selectedSem !== sem) {
+                                            setSelectedSem(sem); 
+                                            setSelectedCourseId(''); 
+                                         }
+                                     }}
                                      className={`w-6 h-6 flex items-center justify-center rounded text-[10px] font-bold transition-all ${
                                          selectedSem === sem
                                          ? 'bg-white dark:bg-bits-blue text-bits-blue dark:text-white shadow-sm'
