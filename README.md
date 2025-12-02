@@ -63,19 +63,6 @@ all in one place, readable by actual humans.
 
 ---
 
-### **4. gemini advisor**
-your AI helper that explains everything like your chill senior,  
-**not** like a corporate HR email.
-
-it now:
-- handholds gently  
-- doesn’t overshare  
-- doesn’t lecture  
-- keeps it simple  
-- talks like an actual person, not an AI brochure
-
----
-
 ## big important disclaimer (pls read before suing)
 
 this project is **NOT** official.  
