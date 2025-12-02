@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>BITS BSc Grade Hub | Unofficial Grade Calculator & GPA Planner</title>
+    <meta name="description" content="Unofficial grade calculator for BITS Pilani Online BSc Computer Science. Built by a student tired of guessing grades. Track SGPA/CGPA and simulate outcomes." />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bits-grade-hub.web.app/" />
+    <meta property="og:title" content="BITS BSc Grade Hub | Unofficial Tool" />
+    <meta property="og:description" content="Calculate SGPA/CGPA, simulate exam outcomes, and plan your BITS Pilani Online degree path." />
+    <meta property="og:image" content="https://bits-grade-hub.web.app/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="BITS BSc Grade Hub" />
+    <meta property="twitter:description" content="Unofficial grade calculator and academic planner for BITS Pilani Online BSc students." />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              bits: {
+                blue: '#0F2445',   // Deep Royal Blue
+                gold: '#F2A900',   // Gear Gold
+                red: '#A81F26',    // Shield Maroon
+                cyan: '#00AEEF',   // Shield Light Blue
+              },
+              slate: {
+                850: '#151e2e',
+                900: '#0F172A',
+              }
+            },
+            animation: {
+              blob: "blob 10s infinite",
+            },
+            keyframes: {
+              blob: {
+                "0%": {
+                  transform: "translate(0px, 0px) scale(1)",
+                },
+                "33%": {
+                  transform: "translate(30px, -50px) scale(1.1)",
+                },
+                "66%": {
+                  transform: "translate(-20px, 20px) scale(0.9)",
+                },
+                "100%": {
+                  transform: "translate(0px, 0px) scale(1)",
+                },
+              },
+            },
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.3);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(148, 163, 184, 0.5);
+      }
+      
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+      
+      /* Smooth focus rings - BITS Gold */
+      *:focus-visible {
+        outline: 2px solid #F2A900;
+        outline-offset: 2px;
+      }
+
+      .animation-delay-2000 {
+        animation-delay: 2s;
+      }
+      .animation-delay-4000 {
+        animation-delay: 4s;
+      }
+
+      /* Print Styles */
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+        body {
+          background: white !important;
+          color: black !important;
+        }
+        .print-break {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.25"
+  }
+}
+</script>
+</head>
+  <body class="bg-[#F9FAFB] text-slate-900 dark:bg-[#0B111A] dark:text-slate-100 selection:bg-bits-gold/30 selection:text-bits-blue overflow-x-hidden w-full">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
