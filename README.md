@@ -82,7 +82,7 @@ and someone had to bring some sanity.
 built on:
 - react + typescript  
 - ai studio + gemini  
-- way too many nights of “one last tweak”  
+- 4 hours with ai studio
 - rk’s questionable life choices
 
 ---
