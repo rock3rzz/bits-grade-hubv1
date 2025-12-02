@@ -124,11 +124,15 @@ const Layout: React.FC<LayoutProps> = ({ children, isDark, toggleTheme }) => {
               
               {/* Signature / Humor Block */}
               <div className="flex flex-col items-center gap-3 group cursor-pointer">
-                  <img 
-                    src="/favicon.svg" 
-                    alt="Logo" 
-                    className="w-8 h-8 transform group-hover:-rotate-12 transition-transform duration-500 drop-shadow-md" 
-                  />
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 24 24" 
+                    fill="currentColor" 
+                    className="w-8 h-8 text-bits-gold transform group-hover:-rotate-12 transition-transform duration-500 drop-shadow-md"
+                  >
+                    <path d="M2.5 10.5C2.5 10.5 5 9.5 7 11C7 11 8.5 7.5 12 7.5C15.5 7.5 17 11 17 11C19 9.5 21.5 10.5 21.5 10.5C21.5 10.5 20.5 15.5 12 15.5C3.5 15.5 2.5 10.5 2.5 10.5Z" />
+                  </svg>
+                  
                   <a 
                     href="https://www.linkedin.com/in/rohitkumarvn/"
                     target="_blank"
