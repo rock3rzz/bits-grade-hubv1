@@ -123,13 +123,20 @@ const Layout: React.FC<LayoutProps> = ({ children, isDark, toggleTheme }) => {
           <div className="max-w-4xl mx-auto px-6 flex flex-col items-center justify-center gap-8 select-none text-center">
               
               {/* Signature / Humor Block */}
-              <div className="flex flex-col items-center gap-3 group">
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-slate-800 dark:text-slate-200 transform group-hover:-rotate-12 transition-transform duration-500">
-                      <path d="M2.5 10.5C2.5 10.5 5 9.5 7 11C7 11 8.5 7.5 12 7.5C15.5 7.5 17 11 17 11C19 9.5 21.5 10.5 21.5 10.5C21.5 10.5 20.5 15.5 12 15.5C3.5 15.5 2.5 10.5 2.5 10.5Z" />
-                  </svg>
-                  <p className="font-mono text-xs md:text-sm text-slate-600 dark:text-slate-400 font-medium tracking-tight">
+              <div className="flex flex-col items-center gap-3 group cursor-pointer">
+                  <img 
+                    src="/favicon.svg" 
+                    alt="Logo" 
+                    className="w-8 h-8 transform group-hover:-rotate-12 transition-transform duration-500 drop-shadow-md" 
+                  />
+                  <a 
+                    href="https://www.linkedin.com/in/rohitkumarvn/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-xs md:text-sm text-slate-600 dark:text-slate-400 font-medium tracking-tight hover:text-bits-blue dark:hover:text-bits-gold transition-colors underline-offset-4 hover:underline decoration-slate-300 dark:decoration-slate-700"
+                  >
                     vibe-coded and stitched together by rk during questionable hours.
-                  </p>
+                  </a>
               </div>
 
               {/* Separator */}
