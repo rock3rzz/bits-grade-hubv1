@@ -125,8 +125,7 @@ const Layout: React.FC<LayoutProps> = ({ children, isDark, toggleTheme }) => {
               {/* Signature / Humor Block */}
               <div className="flex flex-col items-center gap-3 group cursor-pointer">
                   <img 
-                    src="/batwing.png" 
-                    alt="Batwing Logo" 
+                    src="/batwing.png"
                     className="w-8 h-8 transform group-hover:-rotate-12 transition-transform duration-500 drop-shadow-md"
                   />
                   
