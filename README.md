@@ -1,20 +1,97 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+
+# **BITS Grade Hub · Unofficial**
+**designed & vibe-coded by rk**  
+built out of confusion, stubbornness, and a suspicious amount of AI.
+
 </div>
 
-# Run and deploy your AI Studio app
+---
 
-This contains everything you need to run your app locally.
+## why this exists
 
-View your app in AI Studio: https://ai.studio/apps/drive/1z1KYnl9uHI8EA3qNYgzRoCQ3PwLaAKar
+BITS Online students shouldn’t need to dig through scattered PDFs, outdated LMS pages, and random Telegram threads just to understand their own degree.
 
-## Run Locally
+everyone has had the same moment:
 
-**Prerequisites:**  Node.js
+> “what exactly are foundation options, why do electives behave like unlockable levels,  
+and why is my CGPA moving like a crypto chart?”
 
+this project exists because the system is confusing and nobody has time for scavenger hunts.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+
+## what’s inside
+
+### 1. grade calculator  
+a clean, fast breakdown of your academic reality.
+
+it gives you:
+- your current projection  
+- scenario outcomes for different final exam scores  
+- an early pass/fail signal  
+- a target visualizer that tells you the truth politely (most days)
+
+---
+
+### 2. what-if simulator  
+interactive sliders that show how your GPA shifts if you:
+
+- suddenly get ambitious  
+- suddenly lose all motivation  
+- or maintain your current “we’ll see” tempo
+
+the sliders are smoother now, still learning discipline.
+
+---
+
+### 3. curriculum browser  
+no more opening PDFs like you’re decoding ancient scriptures.
+
+you get:
+- all 6 semesters  
+- units, tags, prerequisites  
+- foundation options  
+- discipline electives  
+- honours pathways  
+- degree exit milestones  
+
+all in one place, actually readable.
+
+---
+
+## important disclaimer
+
+this project is **not** official.  
+it is **not** affiliated with BITS Pilani.  
+it does **not** replace academic policies, ARD decisions, LMS rules, or anything that decides your fate.
+
+official records and grading decisions belong solely to BITS Pilani.  
+this is just a student-built helper.
+
+---
+
+## tech
+
+built with:
+- react + typescript  
+- ai studio + gemini  
+- and rk’s stubbornness
+
+---
+
+## credit
+
+made with too many nights of “just one more fix” by **rk**.
+
+if it helps you, share it.  
+if something breaks, refresh.  
+if it still breaks, act surprised.
+
+---
+
+<div align="center">
+
+### star the repo if it saved your sanity
+
+</div>
